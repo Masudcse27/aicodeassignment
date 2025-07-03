@@ -1,5 +1,32 @@
 <?php
+defined('MOODLE_INTERNAL')||die();
+function aicodeassignment_add_instance($data, $mform) {
+    global $DB;
 
+    $data->timecreated = time();
+    $data->timemodified = time();
+
+    $id = $DB->insert_record('aicodeassignment', $data);
+    
+    aicodeassignment_grade_item_update($data);
+
+    return $id;
+}
+
+
+
+function aicodeassignment_update_instance($data, $mform) {
+    global $DB;
+
+    $data->id = $data->instance;
+    $data->timemodified = time();
+
+    $DB->update_record('aicodeassignment', $data);
+
+    aicodeassignment_grade_item_update($data);
+
+    return true;
+}
 
 function aicodeassignment_supports($feature) {
     switch ($feature) {
