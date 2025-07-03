@@ -4,27 +4,33 @@
 
     <!-- Main Assignment Table -->
     <TABLE NAME="aicodeassignment" COMMENT="Stores AI-generated programming assignments">
-      <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-      <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true"/>
-      <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
-      <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
-      <FIELD NAME="introformat" TYPE="int" LENGTH="2" DEFAULT="1" NOTNULL="true"/>
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="2" DEFAULT="1" NOTNULL="true"/>
 
-      <!-- AI Parameters -->
-      <FIELD NAME="prompt" TYPE="text" NOTNULL="true" COMMENT="Teacher prompt for assignment generation"/>
-      <FIELD NAME="difficulty" TYPE="char" LENGTH="50" NOTNULL="false" COMMENT="Difficulty level"/>
-      <FIELD NAME="aigeneratedjson" TYPE="text" NOTNULL="true" COMMENT="AI-generated title, description, etc."/>
+        <!-- AI Parameters -->
+        <FIELD NAME="prompt" TYPE="text" NOTNULL="true" COMMENT="Teacher prompt for assignment generation"/>
+        <FIELD NAME="difficulty" TYPE="char" LENGTH="50" NOTNULL="false" COMMENT="Difficulty level"/>
+        <FIELD NAME="aigeneratedjson" TYPE="text" NOTNULL="true" COMMENT="AI-generated title, description, etc."/>
+        
+        <!-- Language Restrictions -->
+        <FIELD NAME="restrictlanguage" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="1=restrict to allowedlanguages"/>
+        <FIELD NAME="allowedlanguages" TYPE="text" NOTNULL="false" COMMENT="Comma-separated list of allowed languages if restriction is on"/>
+
+        <!-- Gradebook Integration -->
+        <FIELD NAME="grade" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="100"/>
+        
+        <FIELD NAME="timestart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timeend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+
+
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
       
-      <!-- Language Restrictions -->
-      <FIELD NAME="restrictlanguage" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="1=restrict to allowedlanguages"/>
-      <FIELD NAME="allowedlanguages" TYPE="text" NOTNULL="false" COMMENT="Comma-separated list of allowed languages if restriction is on"/>
-
-      <!-- Gradebook Integration -->
-      <FIELD NAME="grade" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="100"/>
-      
-      <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
-      <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
-
+      </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="course_fk" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
@@ -33,11 +39,13 @@
 
     <!-- Test Cases -->
     <TABLE NAME="aicodeassignment_testcases" COMMENT="Stores input/output test cases for automated evaluation">
-      <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-      <FIELD NAME="assignmentid" TYPE="int" LENGTH="10" NOTNULL="true"/>
-      <FIELD NAME="inputdata" TYPE="text" NOTNULL="true"/>
-      <FIELD NAME="expectedoutput" TYPE="text" NOTNULL="true"/>
-      <FIELD NAME="ispublic" TYPE="int" LENGTH="1" DEFAULT="1" NOTNULL="true" COMMENT="Visible to students? 1=yes, 0=no"/>
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="assignmentid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="inputdata" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="expectedoutput" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="ispublic" TYPE="int" LENGTH="1" DEFAULT="1" NOTNULL="true" COMMENT="Visible to students? 1=yes, 0=no"/>
+      </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="assignment_fk" TYPE="foreign" FIELDS="assignmentid" REFTABLE="aicodeassignment" REFFIELDS="id"/>
@@ -46,22 +54,24 @@
 
     <!-- Student Submissions -->
     <TABLE NAME="aicodeassignment_submissions" COMMENT="Stores student-submitted code and AI feedback">
-      <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-      <FIELD NAME="assignmentid" TYPE="int" LENGTH="10" NOTNULL="true"/>
-      <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="assignmentid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
 
-      <FIELD NAME="language" TYPE="char" LENGTH="50" NOTNULL="true" COMMENT="Language used by the student"/>
-      <FIELD NAME="code" TYPE="text" NOTNULL="true"/>
-      <FIELD NAME="output" TYPE="text" NOTNULL="false"/>
-      <FIELD NAME="resultjson" TYPE="text" NOTNULL="false" COMMENT="JSON of test case results"/>
-      
-      <!-- Grade + Feedback -->
-      <FIELD NAME="grade" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="false"/>
-      <FIELD NAME="feedback" TYPE="text" NOTNULL="false"/>
-      <FIELD NAME="aifeedback" TYPE="text" NOTNULL="false"/>
-      
-      <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
-      <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="50" NOTNULL="true" COMMENT="Language used by the student"/>
+        <FIELD NAME="code" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="output" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="resultjson" TYPE="text" NOTNULL="false" COMMENT="JSON of test case results"/>
+        
+        <!-- Grade + Feedback -->
+        <FIELD NAME="grade" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="feedback" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="aifeedback" TYPE="text" NOTNULL="false"/>
+        
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
 
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
