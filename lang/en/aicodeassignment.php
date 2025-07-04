@@ -15,3 +15,8 @@ $string['timeend'] = 'End date';
 $string['endbeforestart'] = 'The end date must be after the start date.';
 $string['allowedlanguagesrequired'] = 'Please specify allowed languages when restriction is enabled.';
 
+$string['apiendpoint'] = 'API Endpoint';
+$string['apiendpoint_desc'] = 'Enter the full URL of the API endpoint to connect to. Example: https://api.example.com/generate';
+
+$string['apikey'] = 'API Key';
+$string['apikey_desc'] = 'Enter the API key used to authenticate requests to the external service.';
