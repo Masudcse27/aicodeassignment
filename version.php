@@ -9,7 +9,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_aicodeassignment';  
-$plugin->version   = 2025070201;              
+$plugin->version   = 2025070206;              
 $plugin->requires  = 2022041900;              
 $plugin->maturity  = MATURITY_ALPHA;          
-$plugin->release   = '1.0.0';                 
+$plugin->release   = '1.0.0';    
+$plugin->has_config = true;             

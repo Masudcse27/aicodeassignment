@@ -7,8 +7,8 @@ class assignmentgenerate
 {
     public static function generate($prompt, $difficulty)
     {
-        $apiKey = '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';
-        $url = 'https://openrouter.ai/api/v1/chat/completions';
+        $apiKey = get_config('mod_aicodeassignment', 'apikey');
+        $url = get_config('mod_aicodeassignment', 'apiendpoint');
 
         // Force the AI to generate full, clear description with examples.
         $formatInstruction = <<<EOD
