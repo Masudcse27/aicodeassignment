@@ -5,7 +5,7 @@ function xmldb_aicodeassignment_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2025070200) { // use a new version number
+    if ($oldversion < 2025070201) { // use a new version number
 
         // Define table
         $table = new xmldb_table('aicodeassignment');
@@ -24,7 +24,18 @@ function xmldb_aicodeassignment_upgrade($oldversion) {
         }
 
         // Savepoint reached
-        upgrade_mod_savepoint(true, 2025070200, 'aicodeassignment');
+        upgrade_mod_savepoint(true, 2025070201, 'aicodeassignment');
+    }
+
+    if ($oldversion < 2025070707) {
+        $table = new xmldb_table('aicodeassignment');
+
+        $field = new xmldb_field('solutioncode', XMLDB_TYPE_TEXT, null, null, null, null, null, 'aigeneratedjson');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2025070707, 'aicodeassignment');
     }
 
     return true;

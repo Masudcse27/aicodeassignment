@@ -11,32 +11,33 @@ class assignmentgenerate
         $url = get_config('mod_aicodeassignment', 'apiendpoint');
 
         // Force the AI to generate full, clear description with examples.
+        
         $formatInstruction = <<<EOD
-            You are an expert problem setter for online coding contests like Codeforces.
+            You are an expert problem setter for programming contests like Codeforces.
 
-            Create a high-quality programming problem based on this topic: "$prompt" (difficulty: $difficulty).
-
-            🧠 Your task:
-            - Do NOT mention the topic name in the title or description.
-            - Use a creative, original title (like "Lost in the Labyrinth", "Sorting Potatoes", etc.)
-            - Describe the problem in an engaging way, possibly with a short story or realistic scenario.
-            - Clearly specify input/output formats like a real contest.
+            Create a programming problem based on this topic: "$prompt" (difficulty: $difficulty).
+            Requirements:
+            - Do NOT mention the topic name in title or description.
+            - Provide a creative problem title and engaging problem description.
+            - Clearly specify input/output format.
             - Include 2-3 meaningful test cases.
+            - **Provide a working sample solution in C++ code that solves the problem.**
 
             Respond ONLY with JSON in this format:
+
             {
             "assignment": {
-                "title": "string", 
+                "title": "string",
                 "description": "string",
                 "input_format": "string",
                 "output_format": "string",
                 "test_cases": [
                 {
                     "input": [...],
-                    "target": ...,
                     "output": ...
                 }
-                ]
+                ],
+                "solution_cpp": "string with C++ code"
             }
             }
             EOD;

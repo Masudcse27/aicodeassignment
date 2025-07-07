@@ -37,7 +37,7 @@ function aicodeassignment_add_instance($data, $mform) {
 
     // Step 4: Save assignment info to main table
     // $data->name = $assignment['title'] ?? $data->name;
-    $data->intro = $assignment['description'] ?? '';
+    $data->solutioncode = $assignment['solution_cpp'] ?? '';
     $data->aigeneratedjson = json_encode($assignment);
 
     $id = $DB->insert_record('aicodeassignment', $data);
