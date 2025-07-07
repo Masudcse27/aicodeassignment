@@ -17,10 +17,16 @@ class assignmentgenerate
 
             Create a programming problem based on this topic: "$prompt" (difficulty: $difficulty).
             Requirements:
-            - Do NOT mention the topic name in title or description.
+            - Do NOT mention the topic name in the title or description.
+            - Use a creative, original title.
+            - Describe the problem clearly, including a short story or scenario.
+            - Provide precise input and output formats. The formats must EXACTLY match the data structures used in the test cases.
+            - Provide 2-3 meaningful test cases.
+            - Each test case's "input" and "output" must conform exactly to the described formats.
+            - Do NOT include any explanations inside the test cases.
+            - Ensure all data types (arrays, integers, objects) in the test cases match the description.
             - Provide a creative problem title and engaging problem description.
             - Clearly specify input/output format.
-            - Include 2-3 meaningful test cases.
             - **Provide a working sample solution in C++ code that solves the problem.**
 
             Respond ONLY with JSON in this format:

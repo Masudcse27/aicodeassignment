@@ -1,7 +1,8 @@
 <?php
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_aicodeassignment_upgrade($oldversion) {
+function xmldb_aicodeassignment_upgrade($oldversion)
+{
     global $DB;
     $dbman = $DB->get_manager();
 
@@ -37,6 +38,20 @@ function xmldb_aicodeassignment_upgrade($oldversion) {
 
         upgrade_mod_savepoint(true, 2025070707, 'aicodeassignment');
     }
+    if ($oldversion < 2025070708) {
+        $table = new xmldb_table('aicodeassignment');
 
+        $timestart = new xmldb_field('timestart', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'grade');
+        if (!$dbman->field_exists($table, $timestart)) {
+            $dbman->add_field($table, $timestart);
+        }
+
+        $timeend = new xmldb_field('timeend', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'timestart');
+        if (!$dbman->field_exists($table, $timeend)) {
+            $dbman->add_field($table, $timeend);
+        }
+
+        upgrade_mod_savepoint(true, 2025070708, 'aicodeassignment');
+    }
     return true;
 }

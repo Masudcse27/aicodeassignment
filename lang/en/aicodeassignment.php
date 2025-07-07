@@ -20,3 +20,5 @@ $string['apiendpoint_desc'] = 'Enter the full URL of the API endpoint to connect
 
 $string['apikey'] = 'API Key';
 $string['apikey_desc'] = 'Enter the API key used to authenticate requests to the external service.';
+$string['notavailableuntil'] = 'This assignment will be available from {$a}.';
+$string['expired'] = 'This assignment has expired.';
