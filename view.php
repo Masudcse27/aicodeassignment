@@ -59,4 +59,10 @@ if (is_array($json)) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('mod_aicodeassignment/view', $templatecontext);
+if (has_capability('mod/aicodeassignment:code_submit', $context)) {
+    echo $OUTPUT->single_button(
+        new moodle_url('/mod/aicodeassignment/submit.php', ['id' => $id]),
+        get_string('submit', 'mod_aicodeassignment')
+    );
+}
 echo $OUTPUT->footer();
