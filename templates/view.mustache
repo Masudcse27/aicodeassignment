@@ -1,0 +1,37 @@
+<div class="mod_aicodeassignment">
+  {{#assignment.title}}
+    <div class="box mt-4 " >
+      <h3 class="mod_aicodeassignment-text_center">{{assignment.title}}</h3>
+    </div>
+
+    <div class="box">
+      <h4>Description</h4>
+      <p>{{assignment.description}}</p>
+    </div>
+
+    <div class="box">
+      <h4>Input Format</h4>
+      <pre>{{assignment.input_format}}</pre>
+    </div>
+
+    <div class="box">
+      <h4>Output Format</h4>
+      <pre>{{assignment.output_format}}</pre>
+    </div>
+
+    {{#assignment.test_cases.length}}
+      <h4>Sample Test Cases</h4>
+      {{#assignment.test_cases}}
+        <div class="box mb-3 p-2 border rounded bg-light">
+          <strong>Input:</strong> <code>{{input}}</code><br>
+          {{#target}}<strong>Target:</strong> <code>{{target}}</code><br>{{/target}}
+          <strong>Expected Output:</strong> <code>{{output}}</code>
+        </div>
+      {{/assignment.test_cases}}
+    {{/assignment.test_cases.length}}
+  {{/assignment.title}}
+
+  {{^assignment.title}}
+    <p>No AI-generated assignment found.</p>
+  {{/assignment.title}}
+</div>
