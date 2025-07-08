@@ -1,7 +1,10 @@
 <?php
+// defined('MOODLE_INTERNAL') || die();
 require('../../config.php');
 require_once('lib.php');
 require_once(__DIR__ . '/classes/form/submissionform.php');
+
+use mod_aicodeassignment\api\codegrader;
 
 $id = required_param('id', PARAM_INT); // Course module ID
 
@@ -35,7 +38,33 @@ if ($mform->is_cancelled()) {
     $record->timemodified = time();
 
     $DB->insert_record('aicodeassignment_submissions', $record);
+    $json = json_decode($assignment->aigeneratedjson, true);
+    $question = $json['description'] ?? '';
+    $result = codegrader::evaluate_submission($question, $record->code, $record->language, $assignment->solutioncode, $record->language);
+    if ($result) {
+        $submissionid = $DB->get_field('aicodeassignment_submissions', 'id', [
+            'assignmentid' => $assignment->id,
+            'userid' => $USER->id
+        ], IGNORE_MULTIPLE);
 
+        $update = (object) [
+            'id' => $submissionid,
+            'grade' => $result['grade'],
+            'aifeedback' => $result['feedback'],
+            'timemodified' => time()
+        ];
+        $DB->update_record('aicodeassignment_submissions', $update);
+        $grades = [
+            $USER->id => [
+                'userid' => $USER->id,
+                'rawgrade' => $result['grade']? ($result['grade']/$assignment->grade)*100 : 0,
+                'feedback' => $result['feedback'],
+                'feedbackformat' => FORMAT_PLAIN
+            ]
+        ];
+
+        aicodeassignment_grade_item_update($assignment, $grades);
+    }
     redirect(
         new moodle_url('/mod/aicodeassignment/view.php', ['id' => $data->id]),
         get_string('submission_saved', 'mod_aicodeassignment'),
